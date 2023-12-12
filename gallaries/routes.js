@@ -1,7 +1,17 @@
 import * as dao from "./dao.js";
 
 function GallariesRoutes(app) {
-  const findAllGallaries = async (req, res) => {};
+  const findAllGallaries = async (req, res) => {
+    const gallaries = await dao.findAllGallaries();
+    res.json(gallaries);
+  };
+
+  const findOneGallary = async (req, res) => {
+    const gallaryID = req.params.gallaryID;
+    const gallary = await dao.findOneGallary(gallaryID);
+    console.log(gallary);
+    res.json(gallary);
+  }
   const createUserAddToGallary = async (req, res) => {
     const userId = req.params.userId;
     const gallaryID = req.params.gallaryID;
@@ -30,6 +40,7 @@ function GallariesRoutes(app) {
   };
   
   app.get("/api/gallaries", findAllGallaries);
+  app.get("/api/gallaries/:gallaryID", findOneGallary);
   app.post("/api/users/:userId/gallaries/:gallaryID/:artworkID", createUserAddToGallary);
   app.delete("/api/users/:userId/gallaries/:gallaryID/:artworkID", deleteUserAddToGallary);
   app.get("/api/users/:userId/gallaries/:gallaryID", findUserOneGallaryArtworks);

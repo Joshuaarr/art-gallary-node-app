@@ -1,6 +1,8 @@
 import model from "./model.js";
 
-export const findAllGallaries = () => model.find();
+export const findAllGallaries = () => model.distinct("gallaryID");
+
+export const findOneGallary = (gallaryID) => model.findOne({gallaryID: gallaryID});
 export const createUserAddToGallary = (userId, gallaryID, artworkID) =>
   model.create({ user: userId, gallaryID: gallaryID, artworkID: artworkID });
 export const deleteUserAddToGallary = (userId, gallaryID) =>
