@@ -6,7 +6,7 @@ const schema = new mongoose.Schema(
     email: String,
     role: {
       type: String,
-      enum: ["ADMIN", "USER", "FACULTY", "STUDENT"],
+      enum: ["ADMIN", "USER", "CREATER"],
       default: "USER",
     },
     doh: { type: Date, default: Date.now },

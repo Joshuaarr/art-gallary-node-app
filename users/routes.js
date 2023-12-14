@@ -52,6 +52,16 @@ function UserRoutes(app) {
     req.session["currentUser"] = currentUser;
     res.json(status);
   };
+
+
+  const editUser = async (req, res) => {
+    const id = req.params.id;
+    const newUser = req.body;
+    const status = await dao.updateUser(id, newUser);
+    const editedUser = await dao.findUserById(id);
+    res.json(editedUser);
+  };
+
   const updateFirstName = async (req, res) => {
     const id = req.params.id;
     const newFirstName = req.params.newFirstName;
@@ -81,7 +91,6 @@ function UserRoutes(app) {
   };
   const account = async (req, res) => {
     const currentUser = req.session["currentUser"];
-    console.log("current user", currentUser);
     res.json(currentUser);
   };
 
@@ -99,6 +108,7 @@ function UserRoutes(app) {
   app.get("/api/users/username/:username", findByUsername);
   app.get("/api/users/credentials/:username/:password", findUserByCredentials);
   app.put("/api/users/:id", updateUser);
+  app.put("/api/users/edit/:id", editUser);
 }
 
 export default UserRoutes;

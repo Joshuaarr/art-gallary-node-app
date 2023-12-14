@@ -9,7 +9,6 @@ function GallariesRoutes(app) {
   const findOneGallary = async (req, res) => {
     const gallaryID = req.params.gallaryID;
     const gallary = await dao.findOneGallary(gallaryID);
-    console.log(gallary);
     res.json(gallary);
   }
   const createUserAddToGallary = async (req, res) => {
@@ -26,6 +25,7 @@ function GallariesRoutes(app) {
     const deleteFromGallary = await dao.deleteUserAddToGallary(userId, gallaryID, artworkID);
     res.json(deleteFromGallary);
   };
+
   const findGallariesThatUserCreates = async (req, res) => {
     const userId = req.params.userId;
     const gallaries = await dao.getUniqueGallaryIDs(userId);
@@ -38,11 +38,21 @@ function GallariesRoutes(app) {
     const artworks = await dao.findUserOneGallaryArtworks(userId, gallaryID);
     res.json(artworks);
   };
+
+  const deleteGallary = async (req, res) => {
+    const gallaryID = req.params.gallaryID;
+    const deleteGallary = await dao.deleteAllGallariesByGallaryID(gallaryID);
+    res.json(deleteGallary);
+  };
   
   app.get("/api/gallaries", findAllGallaries);
   app.get("/api/gallaries/:gallaryID", findOneGallary);
+
+  app.delete("/api/gallaries/delete/:gallaryID", deleteGallary);
   app.post("/api/users/:userId/gallaries/:gallaryID/:artworkID", createUserAddToGallary);
   app.delete("/api/users/:userId/gallaries/:gallaryID/:artworkID", deleteUserAddToGallary);
+
+
   app.get("/api/users/:userId/gallaries/:gallaryID", findUserOneGallaryArtworks);
   app.get("/api/users/:userId/gallaries", findGallariesThatUserCreates);
 }
